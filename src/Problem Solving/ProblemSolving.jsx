@@ -1,69 +1,105 @@
 import { useState } from "react";
+import problemsData from "./problems";
 import SCSS from "./ProblemSolving.module.scss";
 
 const ProblemSolving = () => {
   const [showProblems, setShowProblems] = useState(false);
-  // const [problems, setProblems] = useState([1, 2, 3, 4, 5]);
-  let problems = [1, 2, 3, 4, 5]
-
-  // function handleCallProblems(problem) {}
+  const [showSpecificProblem, setShowSpecificProblem] = useState();
 
   function handleShowProblems() {
     setShowProblems(!showProblems);
   }
 
-  // let inputValue = "adgjlkjfsdlaskfghj";
-  // let inputArray = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+  function utilityProblemCall(problemData) {
+    if (problemData.id == 1) return handleReverseString(problemData.inputValue);
+    if (problemData.id == 2) return handleIsPlaindrome(problemData.inputValue);
+    if (problemData.id == 3) return firstNonRepeatingCharacter(problemData.inputValue);
+    if (problemData.id == 4) return arrayOfEvenNumbers(problemData.inputValue);
+    if (problemData.id == 5) return maxOccurCharacter(problemData.inputValue);
+  }
 
-  // Problem Functions
+  function handleDisplayProblem(problemId) {
+    const specificProblem = problemsData.find(
+      (problem) => problem.id === problemId);
+    setShowSpecificProblem(specificProblem);
+  }
 
-  // function handleReverseString(originalString) {
-  //   // let reversedString = originalString?.split("").reverse().join("");
-  //   let reversedString = ""
-  //   for(let i = originalString.length - 1; i >= 0; i--) {
-  //     reversedString += originalString[i]
-  //   }
-  //   return reversedString;
-  // }
+  function handleReverseString(originalString) {
+    // let reversedString = originalString?.split("").reverse().join("");
+    let reversedString = "";
+    for (let i = originalString.length - 1; i >= 0; i--) {
+      reversedString += originalString[i];
+    }
+    return reversedString;
+  }
 
-  // function handleIsPlaindrome(originalString) {
-  //   // let reversedString = originalString?.split("").reverse().join("");
-  //   let reversedString = ""
-  //   for(let i = originalString.length - 1; i >= 0; i--) {
-  //     reversedString += originalString[i]
-  //   }
-  //   if(originalString === reversedString){
-  //     return "Input is Palindrome"
-  //   } else {
-  //     return "Input is not a Palindrome"
-  //   }
-  // }
+  function handleIsPlaindrome(originalString) {
+    // let reversedString = originalString?.split("").reverse().join("");
+    let reversedString = "";
+    for (let i = originalString.length - 1; i >= 0; i--) {
+      reversedString += originalString[i];
+    }
+    if (originalString === reversedString) {
+      return "Input is Palindrome";
+    } else {
+      return "Input is not a Palindrome";
+    }
+  }
 
-  // function firstNonRepeatingCharacter(originalString) {
-  //   let characterCount = {};
+  function firstNonRepeatingCharacter(originalString) {
+    let characterCount = {};
 
-  //   for (let i = 0; i <= originalString.length - 1; i++) {
-  //     let character = originalString[i];
-  //     if (!characterCount[character]) {
-  //       characterCount[character] = 1;
-  //     } else {
-  //       characterCount[character]++;
-  //     }
-  //   }
+    for (let i = 0; i <= originalString.length - 1; i++) {
+      let character = originalString[i];
+      if (!characterCount[character]) {
+        characterCount[character] = 1;
+      } else {
+        characterCount[character]++;
+      }
+    }
 
-  //   for (let i = 0; i <= originalString.length - 1; i++) {
-  //     if (characterCount[originalString[i]] === 1) {
-  //       return `The First Non-Repeating Character is ${originalString[i]}.`;
-  //     }
-  //   }
+    for (let i = 0; i <= originalString.length - 1; i++) {
+      if (characterCount[originalString[i]] === 1) {
+        return `The First Non-Repeating Character is ${originalString[i]}.`;
+      }
+    }
 
-  //   return "All characters are repeating...";
-  // }
+    return "All characters are repeating...";
+  }
 
-  // function arrayOfEvenNumbers(originalArray){
-  //   let evenArray = originalArray.filter((element) => element % 2 == 0)
-  //   return evenArray
-  // }
+  function arrayOfEvenNumbers(originalArray) {
+    let evenArray = originalArray.filter((element) => element % 2 == 0);
+    return evenArray;
+  }
+
+  function maxOccurCharacter(originalString) {
+    let characterCount = {};
+
+    for (let i = 0; i <= originalString.length - 1; i++) {
+      let character = originalString[i];
+      if (!characterCount[character]) {
+        characterCount[character] = 1;
+      } else {
+        characterCount[character]++;
+      }
+    }
+
+    let maxCount = 0;
+    let maxChar = "";
+
+    for (let entity in characterCount) {
+      if (characterCount[entity] > maxCount) {
+        maxCount = characterCount[entity];
+        maxChar = entity;
+      }
+    }
+
+    console.log("Hello", characterCount);
+
+    return `The most occurring character is "${maxChar}" with ${maxCount} occurrences`;
+  }
+
+  console.log(showSpecificProblem);
 
   return (
     <>
@@ -74,86 +110,50 @@ const ProblemSolving = () => {
       >
         {showProblems ? "Hide Problems" : "Show Problems"}
       </button>
-      {showProblems ? (
-        <>
-          <div className={SCSS.problemContainer}>
-            {problems?.map((problem, index) => (
-              <button key={index}>
-                {problem}
-              </button>
-            ))}
-          </div>
-        </>
-      ) : (
-        <></>
-      )}
-      {/* <section className={SCSS.problemSection}>
-        <h2 className={SCSS.problemStatement}>Problem 1: Reverse a String</h2>
-        <div className={SCSS.inputOutput}>
-          <div className={SCSS.inputContainer}>
-            <div className={SCSS.inputProperty}>Input:</div>
-            <div className={SCSS.inputValue}>{inputValue}</div>
-          </div>
-          <div className={SCSS.outputContainer}>
-            <div className={SCSS.outputProperty}>Output:</div>
-            <div className={SCSS.outputValue}>
-              {handleReverseString(inputValue)}
+      <div
+        className={`${SCSS.problemContainerParent} ${
+          showProblems ? SCSS.show : ""
+        }`}
+      >
+        {showProblems ? (
+          <>
+            <div className={SCSS.problemContainer}>
+              {problemsData?.map((problem, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleDisplayProblem(problem.id)}
+                >
+                  {problem.id}
+                </button>
+              ))}
             </div>
-          </div>
-        </div>
-      </section> */}
+          </>
+        ) : (
+          <></>
+        )}
+      </div>
 
-      {/* <section className={SCSS.problemSection}>
-        <h2 className={SCSS.problemStatement}>Problem 2: Check if a String is a Palindrome</h2>
-        <div className={SCSS.inputOutput}>
-          <div className={SCSS.inputContainer}>
-            <div className={SCSS.inputProperty}>Input:</div>
-            <div className={SCSS.inputValue}>{inputValue}</div>
-          </div>
-          <div className={SCSS.outputContainer}>
-            <div className={SCSS.outputProperty}>Output:</div>
-            <div className={SCSS.outputValue}>
-              {handleIsPlaindrome(inputValue)}
+      {showSpecificProblem ? (
+        <section className={SCSS.problemSection}>
+          <h2 className={SCSS.problemStatement}>
+            {`Problem ${showSpecificProblem.id}: ${showSpecificProblem.title}`}
+          </h2>
+          <div className={SCSS.inputOutput}>
+            <div className={SCSS.inputContainer}>
+              <div className={SCSS.inputProperty}>Input:</div>
+              <div className={SCSS.inputValue}>
+                {showSpecificProblem.inputValue}
+              </div>
+            </div>
+            <div className={SCSS.outputContainer}>
+              <div className={SCSS.outputProperty}>Output:</div>
+              <div className={SCSS.outputValue}>
+                {utilityProblemCall(showSpecificProblem)}
+              </div>
             </div>
           </div>
-        </div>
-      </section> */}
-
-      {/* <section className={SCSS.problemSection}>
-        <h2 className={SCSS.problemStatement}>
-          Problem 3: Find the First Non-Repeating Character
-        </h2>
-        <div className={SCSS.inputOutput}>
-          <div className={SCSS.inputContainer}>
-            <div className={SCSS.inputProperty}>Input:</div>
-            <div className={SCSS.inputValue}>{inputValue}</div>
-          </div>
-          <div className={SCSS.outputContainer}>
-            <div className={SCSS.outputProperty}>Output:</div>
-            <div className={SCSS.outputValue}>
-              {firstNonRepeatingCharacter(inputValue)}
-            </div>
-          </div>
-        </div>
-      </section> */}
-
-      {/* <section className={SCSS.problemSection}>
-        <h2 className={SCSS.problemStatement}>
-          Problem 4: Returns an Array of Even Numbers
-        </h2>
-        <div className={SCSS.inputOutput}>
-          <div className={SCSS.inputContainer}>
-            <div className={SCSS.inputProperty}>Input:</div>
-            <div className={SCSS.inputValue}>{inputArray}</div>
-          </div>
-          <div className={SCSS.outputContainer}>
-            <div className={SCSS.outputProperty}>Output:</div>
-            <div className={SCSS.outputValue}>
-              {arrayOfEvenNumbers(inputArray)}
-            </div>
-          </div>
-        </div>
-      </section> */}
+        </section>
+      ) : null}
     </>
   );
 };
